@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "test": "npm run lint && jest --forceExit",
-    "test-cov": "npm run test -- --coverage",
     "lint": "eslint src test --fix",
+    "test": "npm run lint && jest --forceExit",
+    "cov": "npm run test -- --coverage",
     "start": "node src/main.js"
   },
   "repository": {

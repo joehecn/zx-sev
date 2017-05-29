@@ -7,13 +7,19 @@ const getData = data => {
 
 const http = require('http')
 const Koa = require('koa')
+const Router = require('koa-router')
 const socketio = require('socket.io')
 
 const koa = new Koa()
+const router = new Router()
 
-koa.use(ctx => {
+router.get('/', function (ctx) {
   ctx.body = 'hello'
 })
+
+koa
+  .use(router.routes())
+  .use(router.allowedMethods())
 
 const server = http.createServer(koa.callback())
 

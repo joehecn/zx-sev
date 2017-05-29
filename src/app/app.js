@@ -7,21 +7,19 @@ const getData = data => {
 
 const http = require('http')
 const Koa = require('koa')
-const Router = require('koa-router')
+const bodyParser = require('koa-bodyparser')
 const socketio = require('socket.io')
 
-const koa = new Koa()
-const router = new Router()
+const router = require('./router')
 
-router.get('/', function (ctx) {
-  ctx.body = 'hello'
-})
+const koa = new Koa()
 
 koa
+  .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
 
-const server = http.createServer(koa.callback())
+const server = module.exports = http.createServer(koa.callback())
 
 const io = socketio(server)
 io.serveClient(false)
@@ -32,7 +30,3 @@ io.on('connection', socket => {
     cb(_data)
   })
 })
-
-module.exports = {
-  server
-}

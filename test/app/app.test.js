@@ -1,23 +1,13 @@
+
 'use strict'
 
-const supertest = require('supertest')
-const { server } = require('../../src/app/app.js')
+// const supertest = require('supertest')
+const server = require('../../src/app/app.js')
 const ioc = require('socket.io-client')
 
-afterEach(() => {
-  server.close()
-})
-
-describe('/test/app/app.test.js', () => {
-  describe('GET /', () => {
-    it('should 200', () => {
-      return supertest(server.listen())
-        .get('/')
-        .expect(200)
-        .expect('hello')
-    })
-  })
-})
+// afterEach(() => {
+//   server.close()
+// })
 
 describe('socket', () => {
   it('should ok', done => {

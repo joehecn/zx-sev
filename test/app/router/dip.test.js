@@ -5,7 +5,10 @@ const supertest = require('supertest')
 const jwt = require('jsonwebtoken')
 const server = require('../../../src/app/app.js')
 const { dbNameNotEmpty, nameNotEmpty, nameNotExist,
-  passwordNotEmpty, passwordNotMatch } = require('../../../src/app/err.js')
+  passwordNotEmpty, passwordNotMatch, smDataNotEmpty,
+  smDataNotValid } = require('../../../src/app/err.js')
+
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYk5hbWUiOiJzeiIsIm5hbWUiOiLmt7HlnLPmub4iLCJpYXQiOjE0OTYwNjUxNDl9.aw4Ou5NkvdXT_1ElyuMWY9NqjPv-UIGDIvMPkDIU6MU'
 
 afterEach(() => {
   server.close()
@@ -113,6 +116,64 @@ describe('/test/app/router/djp.test.js', () => {
         .expect(passwordNotMatch)
     })
   })
-})
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYk5hbWUiOiJzeiIsIm5hbWUiOiLmt7HlnLPmub4iLCJpYXQiOjE0OTYwNjUxNDl9.aw4Ou5NkvdXT_1ElyuMWY9NqjPv-UIGDIvMPkDIU6MU
+  describe('GET /api/djp/djps', () => {
+    it('should 401', () => {
+      return supertest(server.listen())
+        .get('/api/djp/djps')
+        .expect(401)
+        .expect('Authentication Error')
+    })
+
+    it('should 400 smDataNotEmpty', () => {
+      return supertest(server.listen())
+        .get('/api/djp/djps')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(400)
+        .expect(smDataNotEmpty)
+    })
+
+    // 2000年彩蛋
+    it('should 400 smDataNotValid', () => {
+      return supertest(server.listen())
+        .get('/api/djp/djps')
+        .set('Authorization', `Bearer ${token}`)
+        .query({ smDate: '2000-05-00' })
+        .expect(400)
+        .expect(smDataNotValid)
+    })
+    // 2000年彩蛋
+    it('should 400 smDataNotValid', () => {
+      return supertest(server.listen())
+        .get('/api/djp/djps')
+        .set('Authorization', `Bearer ${token}`)
+        .query({ smDate: '2000-05-13' })
+        .expect(400)
+        .expect(smDataNotValid)
+    })
+    it('should 400 smDataNotValid', () => {
+      return supertest(server.listen())
+        .get('/api/djp/djps')
+        .set('Authorization', `Bearer ${token}`)
+        .query({ smDate: '2017-05-32' })
+        .expect(400)
+        .expect(smDataNotValid)
+    })
+
+    // 2000年彩蛋
+    it('should 200', () => {
+      return supertest(server.listen())
+        .get('/api/djp/djps')
+        .set('Authorization', `Bearer ${token}`)
+        .query({ smDate: '2000-07-01' })
+        .expect(200) // 264
+    })
+    it.only('should 200', () => {
+      return supertest(server.listen())
+        .get('/api/djp/djps')
+        .set('Authorization', `Bearer ${token}`)
+        .query({ smDate: '2017-05-01' })
+        .expect(200) // 5
+    })
+  })
+})

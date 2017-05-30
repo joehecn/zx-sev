@@ -3,7 +3,7 @@
 
 const Router = require('koa-router')
 const koajwt = require('koa-jwt')
-const { login } = require('../controller/djp.js')
+const { login, list } = require('../controller/djp.js')
 
 const djp = module.exports = new Router()
 
@@ -20,3 +20,4 @@ djp.use(async (ctx, next) => {
 djp.use(koajwt({ secret: 'secret' }).unless({ path: ['/api/djp/users/login'] }))
 
 djp.post('/users/login', login)
+djp.get('/djps', list)

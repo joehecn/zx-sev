@@ -6,7 +6,8 @@
     "lint": "eslint src test --fix",
     "test": "npm run lint && jest --forceExit",
     "cov": "npm run test -- --coverage",
-    "start": "node src/main.js"
+    "start": "node src/main.js",
+    "pro": "forever src/main.js"
   },
   "repository": {
     "url": "https://github.com/joehecn/zx-sev.git",

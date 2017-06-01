@@ -16,7 +16,7 @@ afterEach(() => {
 
 describe('/test/app/router/djp.test.js', () => {
   describe('POST /api/djp/users/login', () => {
-    it('should 204 success', async () => {
+    it('should 200', async () => {
       // base64 编码
       const userObj = { dbName: 'sz', name: '深圳湾', password: 'shenzhenwan' }
       const userStr = JSON.stringify(userObj)
@@ -25,13 +25,23 @@ describe('/test/app/router/djp.test.js', () => {
       const res = await supertest(server.listen())
         .post('/api/djp/users/login')
         .send({ user })
-        .expect(204)
+        .expect(200)
 
-      const { dbName, name } = jwt.verify(res.header.authorization.split(' ')[1], 'secret')
+      const { dbName, name } = jwt.verify(res.text, 'secret')
       expect(dbName).toBe('sz')
       expect(name).toBe('深圳湾')
     })
 
+    // 数据库不能为空
+    it('should 401 dbNameNotEmpty', () => {
+      const user = {}
+
+      return supertest(server.listen())
+        .post('/api/djp/users/login')
+        .send({ user })
+        .expect(401)
+        .expect(dbNameNotEmpty)
+    })
     // 数据库不能为空
     it('should 401 dbNameNotEmpty', () => {
       // base64 编码
@@ -168,7 +178,7 @@ describe('/test/app/router/djp.test.js', () => {
         .query({ smDate: '2000-07-01' })
         .expect(200) // 264
     })
-    it.only('should 200', () => {
+    it('should 200', () => {
       return supertest(server.listen())
         .get('/api/djp/djps')
         .set('Authorization', `Bearer ${token}`)

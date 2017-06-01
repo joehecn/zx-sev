@@ -16,6 +16,7 @@
   "author": "joehe <leanbrown@live.cn>",
   "license": "MIT",
   "dependencies": {
+    "kcors": "2",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-jwt": "^3.2.2",

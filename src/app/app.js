@@ -7,6 +7,7 @@ const getData = data => {
 
 const http = require('http')
 const Koa = require('koa')
+const cors = require('kcors')
 const bodyParser = require('koa-bodyparser')
 const socketio = require('socket.io')
 
@@ -15,6 +16,7 @@ const router = require('./router')
 const koa = new Koa()
 
 koa
+  .use(cors())
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())

@@ -18,6 +18,6 @@ djp.use(async (ctx, next) => {
 })
 
 djp.use(koajwt({ secret: 'secret' }).unless({ path: ['/api/djp/users/login'] }))
-
 djp.post('/users/login', login)
+
 djp.get('/djps', list)

@@ -51,7 +51,6 @@ exports.dengjipai = dbName => {
         }
       )
 
-      console.log(res.length)
       return res
     }
   }

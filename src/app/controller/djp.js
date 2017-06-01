@@ -10,6 +10,8 @@ const { dbNameNotEmpty, nameNotEmpty, passwordNotEmpty,
 exports.login = async ctx => {
   // base64 解码
   const { user } = ctx.request.body
+  if (typeof user !== 'string') ctx.throw(401, dbNameNotEmpty)
+
   const userStr = Buffer.from(user, 'base64').toString()
   const { dbName, name, password } = JSON.parse(userStr)
 
@@ -21,8 +23,8 @@ exports.login = async ctx => {
 
   const token = jwt.sign({ dbName, name }, 'secret')
 
-  ctx.set('Authorization', `Bearer ${token}`)
-  ctx.status = 204
+  ctx.body = token
+  ctx.status = 200
 }
 
 exports.list = async ctx => {

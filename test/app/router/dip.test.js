@@ -7,7 +7,7 @@ const server = require('../../../src/app/app.js')
 const { dbNameNotEmpty, nameNotEmpty, nameNotExist,
   passwordNotEmpty, passwordNotMatch, smDataNotEmpty,
   smDataNotValid, ObjectIdNotValid, isDownloadNotValid,
-  djpObjNotExist, djpNoteNotValid } = require('../../../src/app/err.js')
+  djpObjNotExist, djpNoteNotValid, isPrintNotValid } = require('../../../src/app/err.js')
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYk5hbWUiOiJzeiIsIm5hbWUiOiLmt7HlnLPmub4iLCJpYXQiOjE0OTYwNjUxNDl9.aw4Ou5NkvdXT_1ElyuMWY9NqjPv-UIGDIvMPkDIU6MU'
 
@@ -248,10 +248,19 @@ describe('/test/app/router/djp.test.js', () => {
         .expect(ObjectIdNotValid)
     })
 
+    it('should 400', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isprint/5905426ceb14970e00771be6')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(400)
+        .expect(isPrintNotValid)
+    })
+
     it('should 204', () => {
       return supertest(server.listen())
         .put('/api/djp/djps/isprint/5905426ceb14970e80771be0')
         .set('Authorization', `Bearer ${token}`)
+        .send({ value: false })
         .expect(204)
     })
 
@@ -259,6 +268,7 @@ describe('/test/app/router/djp.test.js', () => {
       return supertest(server.listen())
         .put('/api/djp/djps/isprint/5905426ceb14970e00771be6')
         .set('Authorization', `Bearer ${token}`)
+        .send({ value: true })
         .expect(204)
     })
   })

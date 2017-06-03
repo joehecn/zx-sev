@@ -12,5 +12,6 @@ module.exports = {
   ObjectIdNotValid: '100008',
   djpNoteNotValid: '100009',
   isDownloadNotValid: '100010',
-  djpObjNotExist: '100011'
+  djpObjNotExist: '100011',
+  isPrintNotValid: '100012'
 }

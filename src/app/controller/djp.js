@@ -7,7 +7,7 @@ const { validatorObjectId } = require('../zxutil.js')
 const { dengjipai } = require('../service')
 const { dbNameNotEmpty, nameNotEmpty, passwordNotEmpty,
   smDataNotEmpty, smDataNotValid, ObjectIdNotValid,
-  djpNoteNotValid, isDownloadNotValid } = require('../err.js')
+  djpNoteNotValid, isDownloadNotValid, isPrintNotValid } = require('../err.js')
 
 exports.login = async ctx => {
   // base64 解码
@@ -69,10 +69,12 @@ exports.isdownload = async ctx => {
 exports.isprint = async ctx => {
   const user = ctx.state.user
   const _id = ctx.params.id
+  const { value } = ctx.request.body
 
   if (!validatorObjectId(_id)) ctx.throw(400, ObjectIdNotValid)
+  if (typeof value !== 'boolean') ctx.throw(400, isPrintNotValid)
 
-  await dengjipai(user.dbName).update({ _id, name: user.name }, { isPrint: true })
+  await dengjipai(user.dbName).update({ _id, name: user.name }, { isPrint: value })
   ctx.status = 204
 }
 

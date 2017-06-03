@@ -15,3 +15,10 @@ cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 exit
 docker stop zx-sev && docker start zx-sev
 ```
+
+## mongo
+
+### update
+https://docs.mongodb.com/manual/reference/command/update/
+
+Output: { n: 0, nModified: 0, ok: 1 }

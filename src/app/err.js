@@ -8,5 +8,9 @@ module.exports = {
   passwordNotEmpty: '100004', // 密码不能为空
   passwordNotMatch: '100005', // 密码不匹配
   smDataNotEmpty: '100006',
-  smDataNotValid: '100007'
+  smDataNotValid: '100007',
+  ObjectIdNotValid: '100008',
+  djpNoteNotValid: '100009',
+  isDownloadNotValid: '100010',
+  djpObjNotExist: '100011'
 }

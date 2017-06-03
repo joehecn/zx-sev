@@ -3,9 +3,11 @@
 
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
+const { validatorObjectId } = require('../zxutil.js')
 const { dengjipai } = require('../service')
 const { dbNameNotEmpty, nameNotEmpty, passwordNotEmpty,
-  smDataNotEmpty, smDataNotValid } = require('../err.js')
+  smDataNotEmpty, smDataNotValid, ObjectIdNotValid,
+  djpNoteNotValid, isDownloadNotValid } = require('../err.js')
 
 exports.login = async ctx => {
   // base64 解码
@@ -50,4 +52,38 @@ exports.list = async ctx => {
 
   const res = await dengjipai(user.dbName).list(user.name, m, isDate)
   ctx.body = res
+}
+
+exports.isdownload = async ctx => {
+  const user = ctx.state.user
+  const _id = ctx.params.id
+  const { value } = ctx.request.body
+
+  if (!validatorObjectId(_id)) ctx.throw(400, ObjectIdNotValid)
+  if (typeof value !== 'boolean') ctx.throw(400, isDownloadNotValid)
+
+  const res = await dengjipai(user.dbName).isdownload(_id, user.name, value)
+  ctx.body = res
+}
+
+exports.isprint = async ctx => {
+  const user = ctx.state.user
+  const _id = ctx.params.id
+
+  if (!validatorObjectId(_id)) ctx.throw(400, ObjectIdNotValid)
+
+  await dengjipai(user.dbName).update({ _id, name: user.name }, { isPrint: true })
+  ctx.status = 204
+}
+
+exports.djpnote = async ctx => {
+  const user = ctx.state.user
+  const _id = ctx.params.id
+  const { value } = ctx.request.body
+
+  if (!validatorObjectId(_id)) ctx.throw(400, ObjectIdNotValid)
+  if (typeof value !== 'string') ctx.throw(400, djpNoteNotValid)
+
+  await dengjipai(user.dbName).update({ _id, name: user.name }, { djpNote: value })
+  ctx.status = 204
 }

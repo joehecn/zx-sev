@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken')
 const server = require('../../../src/app/app.js')
 const { dbNameNotEmpty, nameNotEmpty, nameNotExist,
   passwordNotEmpty, passwordNotMatch, smDataNotEmpty,
-  smDataNotValid } = require('../../../src/app/err.js')
+  smDataNotValid, ObjectIdNotValid, isDownloadNotValid,
+  djpObjNotExist, djpNoteNotValid } = require('../../../src/app/err.js')
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYk5hbWUiOiJzeiIsIm5hbWUiOiLmt7HlnLPmub4iLCJpYXQiOjE0OTYwNjUxNDl9.aw4Ou5NkvdXT_1ElyuMWY9NqjPv-UIGDIvMPkDIU6MU'
 
@@ -184,6 +185,115 @@ describe('/test/app/router/djp.test.js', () => {
         .set('Authorization', `Bearer ${token}`)
         .query({ smDate: '2017-05-01' })
         .expect(200) // 5
+    })
+  })
+
+  describe('PUT /api/djp/djps/isdownload/:id', () => {
+    it('should 401', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isdownload/5905426ceb14970e00771be6')
+        .expect(401)
+        .expect('Authentication Error')
+    })
+
+    it('should 400', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isdownload/5905426ceb14970e00771be')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ value: false })
+        .expect(400)
+        .expect(ObjectIdNotValid)
+    })
+
+    it('should 400', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isdownload/5905426ceb14970e00771be6')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ value: 'notes' })
+        .expect(400)
+        .expect(isDownloadNotValid)
+    })
+
+    it('should 400', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isdownload/5905426ceb14970e00871be6')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ value: false })
+        .expect(400)
+        .expect(djpObjNotExist)
+    })
+
+    it('should 200', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isdownload/5905426ceb14970e00771be6')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ value: false })
+        .expect(200)
+    })
+  })
+
+  describe('PUT /api/djp/djps/isprint/:id', () => {
+    it('should 401', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isprint/5905426ceb14970e00771be')
+        .expect(401)
+        .expect('Authentication Error')
+    })
+
+    it('should 400', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isprint/5905426ceb14970e00771be')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(400)
+        .expect(ObjectIdNotValid)
+    })
+
+    it('should 204', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isprint/5905426ceb14970e80771be0')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204)
+    })
+
+    it('should 204', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/isprint/5905426ceb14970e00771be6')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(204)
+    })
+  })
+
+  describe('PUT /api/djp/djps/djpnote/:id', () => {
+    it('should 401', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/djpnote/5905426ceb14970e00771be')
+        .expect(401)
+        .expect('Authentication Error')
+    })
+
+    it('should 400', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/djpnote/5905426ceb14970e00771be')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ value: 'notes' })
+        .expect(400)
+        .expect(ObjectIdNotValid)
+    })
+
+    it('should 400', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/djpnote/5905426ceb14970e00771be6')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(400)
+        .expect(djpNoteNotValid)
+    })
+
+    it('should 204', () => {
+      return supertest(server.listen())
+        .put('/api/djp/djps/djpnote/5905426ceb14970e00771be6')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ value: 'notes' })
+        .expect(204)
     })
   })
 })

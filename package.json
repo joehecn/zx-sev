@@ -16,13 +16,15 @@
   "author": "joehe <leanbrown@live.cn>",
   "license": "MIT",
   "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
     "kcors": "2",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-jwt": "^3.2.2",
     "koa-router": "^7.2.0",
     "mongoose": "^4.10.3",
-    "socket.io": "^2.0.1"
+    "socket.io": "^2.0.1",
+    "socketio-jwt": "^4.5.0"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

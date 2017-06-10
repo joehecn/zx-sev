@@ -2,16 +2,13 @@
 'use strict'
 
 module.exports = {
-  dbNameNotEmpty: '100001',   // 数据库不能为空
-  nameNotEmpty: '100002',     // 名称不能为空
-  nameNotExist: '100003',     // 名称不存在
-  passwordNotEmpty: '100004', // 密码不能为空
-  passwordNotMatch: '100005', // 密码不匹配
-  smDataNotEmpty: '100006',
-  smDataNotValid: '100007',
-  ObjectIdNotValid: '100008',
-  djpNoteNotValid: '100009',
-  isDownloadNotValid: '100010',
-  djpObjNotExist: '100011',
-  isPrintNotValid: '100012'
+  userNameNotExist: '用户名不存在',      // yg kb
+  roleDisableLogin: '禁止登录',         // yg kb
+  statusInReviewLogin: '帐号审核中',    // yg kb
+  passwordNotMatch: '密码不匹配',       // yg kb djp
+
+  categoryUnauthorized: '帐号未经授权', // kb
+
+  nameNotExist: '用户名不存在',         // djp
+  smDataNotValid: '日期格式不对'        // djp
 }

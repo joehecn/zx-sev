@@ -4,7 +4,7 @@
 const moment = require('moment')
 const createError = require('http-errors')
 const getModel = require('../model.js')
-const { nameNotExist, passwordNotMatch, djpObjNotExist } = require('../err.js')
+const { nameNotExist, passwordNotMatch } = require('../err.js')
 
 module.exports = dbName => {
   const Dengjipai = getModel(dbName, 'dengjipai')
@@ -15,14 +15,14 @@ module.exports = dbName => {
   getModel(dbName, 'batch')
 
   return {
-    checkUser: async (name, password) => {
+    async checkUser (name, password) {
       const res = await Dengjipai.findOne({ name }, { _id: 0, name: 1, password: 1 })
 
       if (res === null) throw createError(401, nameNotExist)
       if (res.password !== password) throw createError(401, passwordNotMatch)
     },
 
-    list: async (name, m, isDate) => {
+    async list (name, m, isDate) {
       let match
       if (isDate) {
         match = m
@@ -44,10 +44,10 @@ module.exports = dbName => {
 
       const res = await Djp.find(
         { name: name, sm: { $in: smids } },
-        { sm: 1, name: 1, isDownload: 1, isPrint: 1, djpNote: 1 }
+        { sm: 1, isDownload: 1, isPrint: 1, djpNote: 1 }
       ).populate(
         { path: 'sm',
-          select: '_id flight smRealNumber',
+          select: {_id: 0, 'flight.flightDate': 1, 'flight.flightNum': 1, smRealNumber: 1},
           match: {
             'flight.flightDate': match
           }
@@ -57,13 +57,13 @@ module.exports = dbName => {
       return res
     },
 
-    isdownload: async (_id, name, isDownload) => {
+    async isdownload (_id, name, isDownload) {
       let sn = 0
       let users = []
 
       const djpObj = await Djp.findOne({ _id, name }, { _id: 0, sm: 1 })
 
-      if (djpObj === null) throw createError(400, djpObjNotExist)
+      // if (djpObj === null) throw createError(400, djpObjNotExist)
 
       const smObj = await Sm.findOne({ _id: djpObj.sm })
       const teamObj = await Team.findOne({ _id: smObj.team })
@@ -168,13 +168,13 @@ module.exports = dbName => {
       setData.users = users
 
       if (isDownload === false) {
-        Djp.update({ _id, name }, { $set: { isDownload: true } })
+        await Djp.update({ _id, name }, { $set: { isDownload: true } })
       }
 
       return setData
     },
 
-    update: async (search, fields) => {
+    async update (search, fields) {
       await Djp.update(search, { $set: fields })
     }
   }

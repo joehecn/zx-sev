@@ -3,43 +3,41 @@
 
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
-const { validatorObjectId } = require('../zxutil.js')
-const { dengjipai } = require('../service')
-const { dbNameNotEmpty, nameNotEmpty, passwordNotEmpty,
-  smDataNotEmpty, smDataNotValid, ObjectIdNotValid,
-  djpNoteNotValid, isDownloadNotValid, isPrintNotValid } = require('../err.js')
+const { CITY_DB, djpSecret } = require('../zxutil.js')
+const getSev = require('../sev.js')
+const { smDataNotValid } = require('../err.js')
+
+// exports.getErr = ctx => {
+//   ctx.body = errToClient
+// }
+
+exports.citydb = ctx => {
+  ctx.body = CITY_DB
+}
 
 exports.login = async ctx => {
   // base64 解码
   const { user } = ctx.request.body
-  if (typeof user !== 'string') ctx.throw(401, dbNameNotEmpty)
 
   const userStr = Buffer.from(user, 'base64').toString()
   const { dbName, name, password } = JSON.parse(userStr)
 
-  if (dbName === undefined) ctx.throw(401, dbNameNotEmpty)
-  if (name === undefined) ctx.throw(401, nameNotEmpty)
-  if (password === undefined) ctx.throw(401, passwordNotEmpty)
+  await getSev(dbName, 'dengjipai').checkUser(name, password)
 
-  await dengjipai(dbName).checkUser(name, password)
-
-  const token = jwt.sign({ dbName, name }, 'secret')
+  const token = jwt.sign({ dbName, name }, djpSecret)
 
   ctx.body = token
-  ctx.status = 200
 }
 
 exports.list = async ctx => {
-  const user = ctx.state.user
+  const { dbName, name } = ctx.state.user
   const smDate = ctx.query.smDate
   let m
   let isDate = true // 查询天还是月
 
-  if (!smDate) ctx.throw(400, smDataNotEmpty)
-
   if (smDate.substr(0, 4) === '2000') {
     // 彩蛋 查询整月
-    if (!(Number(smDate.substr(8, 2)) > 0 && Number(smDate.substr(8, 2)) < 13)) {
+    if (Number(smDate.substr(8, 2)) > 12) {
       ctx.throw(400, smDataNotValid)
     }
 
@@ -47,45 +45,35 @@ exports.list = async ctx => {
     isDate = false
   } else {
     m = moment(smDate)
-    if (!m.isValid()) ctx.throw(400, smDataNotValid)
   }
 
-  const res = await dengjipai(user.dbName).list(user.name, m, isDate)
+  const res = await getSev(dbName, 'dengjipai').list(name, m, isDate)
   ctx.body = res
 }
 
 exports.isdownload = async ctx => {
-  const user = ctx.state.user
+  const { dbName, name } = ctx.state.user
   const _id = ctx.params.id
   const { value } = ctx.request.body
 
-  if (!validatorObjectId(_id)) ctx.throw(400, ObjectIdNotValid)
-  if (typeof value !== 'boolean') ctx.throw(400, isDownloadNotValid)
-
-  const res = await dengjipai(user.dbName).isdownload(_id, user.name, value)
+  const res = await getSev(dbName, 'dengjipai').isdownload(_id, name, value)
   ctx.body = res
 }
 
 exports.isprint = async ctx => {
-  const user = ctx.state.user
+  const { dbName, name } = ctx.state.user
   const _id = ctx.params.id
   const { value } = ctx.request.body
 
-  if (!validatorObjectId(_id)) ctx.throw(400, ObjectIdNotValid)
-  if (typeof value !== 'boolean') ctx.throw(400, isPrintNotValid)
-
-  await dengjipai(user.dbName).update({ _id, name: user.name }, { isPrint: value })
+  await getSev(dbName, 'dengjipai').update({ _id, name }, { isPrint: value })
   ctx.status = 204
 }
 
 exports.djpnote = async ctx => {
-  const user = ctx.state.user
+  const { dbName, name } = ctx.state.user
   const _id = ctx.params.id
   const { value } = ctx.request.body
 
-  if (!validatorObjectId(_id)) ctx.throw(400, ObjectIdNotValid)
-  if (typeof value !== 'string') ctx.throw(400, djpNoteNotValid)
-
-  await dengjipai(user.dbName).update({ _id, name: user.name }, { djpNote: value })
+  await getSev(dbName, 'dengjipai').update({ _id, name }, { djpNote: value })
   ctx.status = 204
 }

@@ -19,9 +19,13 @@ describe('/test/app/io/yg.test.js', () => {
           reconnection: false
         })
 
+        // console.log(client)
+        // console.log(client.decoded_token)
+        // console.log(client.handshake)
+
         client.on('connect', () => {
           setTimeout(client.emit('event', 'data', result => {
-            console.log(result)
+            // console.log(result)
             expect(result).toBe('data')
             done()
           }))

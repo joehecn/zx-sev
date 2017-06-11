@@ -13,7 +13,7 @@ afterEach(() => {
   server.close()
 })
 
-describe('/test/app/router/djp.test.js', () => {
+describe.skip('/test/app/router/djp.test.js', () => {
   // describe('GET /api/djp/err', () => {
   //   it('should 200', async () => {
   //     return supertest(server.listen())

@@ -8,7 +8,7 @@ const server = require('../../../src/app/app.js')
 const { userNameNotExist, roleDisableLogin, statusInReviewLogin,
   passwordNotMatch } = require('../../../src/app/err.js')
 
-describe('/test/app/router/yg.test.js', () => {
+describe.skip('/test/app/router/yg.test.js', () => {
   describe('POST /api/yg/users/login', () => {
     it('should 200', async () => {
       // base64 编码

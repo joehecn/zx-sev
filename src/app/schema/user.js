@@ -9,12 +9,13 @@ const createError = require('http-errors')
 const { passwordNotMatch } = require('../err.js')
 
 // 用户
-var SALT_WORK_FACTOR = 10
-var bcrypt = require('bcrypt-nodejs')
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
-var _bcryptGenSalt = function (bcrypt, SALT_WORK_FACTOR, _this, next) {
+const SALT_WORK_FACTOR = 10
+const bcrypt = require('bcrypt-nodejs')
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
+
+const _bcryptGenSalt = function (bcrypt, SALT_WORK_FACTOR, _this, next) {
   bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
     if (err) {
       return next(err)
@@ -31,7 +32,7 @@ var _bcryptGenSalt = function (bcrypt, SALT_WORK_FACTOR, _this, next) {
   })
 }
 
-var UserSchema = new Schema({
+const UserSchema = new Schema({
   // 公司
   company: {
     type: ObjectId,

@@ -7,10 +7,10 @@
  */
 
 // 服务单
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
-var SmSchema = new Schema({
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
+const SmSchema = new Schema({
   user: ObjectId,
   company: ObjectId,
   operator: String,

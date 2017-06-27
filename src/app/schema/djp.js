@@ -2,10 +2,10 @@
 'use strict'
 
 // 登机牌
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
-var DjpSchema = new Schema({
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
+const DjpSchema = new Schema({
   sm: {
     type: ObjectId,
     ref: 'Sm'

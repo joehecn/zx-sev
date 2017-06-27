@@ -15,7 +15,7 @@ module.exports = {
   async login (userName, password, isKB) {
     const res = await User.findOne(
       { userName },
-      { company: 1, role: 1, status: 1, password: 1 }
+      { company: 1, name: 1, role: 1, status: 1, password: 1 }
     ).populate(
       'company',
       { category: 1, city: 1 }
@@ -30,10 +30,13 @@ module.exports = {
     const isMatch = await res.comparePassword(password)
     if (!isMatch) throw createError(401, passwordNotMatch)
 
-    const dbname = CITY_DB[res.company.city]
+    const city = res.company.city
+    const dbname = CITY_DB[city]
 
     return {
       _id: res._id,
+      name: res.name,
+      city,
       dbname
     }
   },

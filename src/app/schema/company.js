@@ -7,9 +7,9 @@
 'use strict'
 
 // 公司
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var CompanySchema = new Schema({
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const CompanySchema = new Schema({
   feestemp: String,    // 收费模板 name
 
   // 公司名称

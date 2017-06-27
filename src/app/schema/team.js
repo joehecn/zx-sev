@@ -6,10 +6,10 @@
 'use strict'
 
 // 团队单
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
-var TeamSchema = new Schema({
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
+const TeamSchema = new Schema({
   user: ObjectId,
   company: ObjectId,
   companyAbbr: String,       // 公司简称（服务商只读）（不用反馈）

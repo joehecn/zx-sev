@@ -6,10 +6,10 @@
 'use strict'
 
 // 组
-var mongoose = require('mongoose')
-var Schema = mongoose.Schema
-var ObjectId = Schema.Types.ObjectId
-var BatchSchema = new Schema({
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
+const BatchSchema = new Schema({
   user: ObjectId,
   team: {
     type: ObjectId,

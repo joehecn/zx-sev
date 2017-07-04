@@ -18,36 +18,86 @@
 //   return obj
 // })(err)
 
-const _provinceCity = exports.PROVINCE_CITY = {
+const _provinces = {
   '广东': {
-    '深圳': 'sz',
-    '广州': 'gz'
+    '深圳': { city: 'sz', places: ['6', '2', '0'] },
+    '广州': { city: 'gz', places: ['13'] }
   },
   '浙江': {
-    '杭州': 'hz'
+    '杭州': { city: 'hz', places: ['7', '11'] }
   }
 }
 
-// {
+// '广东': {
 //   '深圳': 'sz',
-//   ...
+//   '广州': 'gz'
+// },
+// '浙江': {
+//   '杭州': 'hz'
 // }
-const _cityDb = exports.CITY_DB = (_provinceCity => {
+exports.PROVINCE_CITY = (_provinces => {
   let obj = {}
 
-  for (let key1 in _provinceCity) {
-    if (_provinceCity.hasOwnProperty(key1)) {
-      let cityObj = _provinceCity[key1]
-      for (let key2 in cityObj) {
-        if (cityObj.hasOwnProperty(key2)) {
-          obj[key2] = cityObj[key2]
+  for (let key1 in _provinces) {
+    if (_provinces.hasOwnProperty(key1)) {
+      let province = _provinces[key1]
+      let _citys = {}
+      for (let key2 in province) {
+        if (province.hasOwnProperty(key2)) {
+          _citys[key2] = province[key2].city
+        }
+      }
+      obj[key1] = _citys
+    }
+  }
+
+  return obj
+})(_provinces)
+
+// {
+//   '深圳': { city: 'sz', places: ['6', '2', '0'] }
+//   ...
+// }
+const _citys = (_provinces => {
+  let obj = {}
+
+  for (let key1 in _provinces) {
+    if (_provinces.hasOwnProperty(key1)) {
+      let province = _provinces[key1]
+      for (let key2 in province) {
+        if (province.hasOwnProperty(key2)) {
+          obj[key2] = province[key2]
         }
       }
     }
   }
 
   return obj
-})(_provinceCity)
+})(_provinces)
+
+let _cityDb = {}
+let _cityPlaces = {}
+
+;(_citys => {
+  for (let key in _citys) {
+    if (_citys.hasOwnProperty(key)) {
+      _cityDb[key] = _citys[key].city
+      _cityPlaces[key] = _citys[key].places
+    }
+  }
+})(_citys)
+
+// {
+//   '深圳': 'sz',
+//   ...
+// }
+exports.CITY_DB = _cityDb
+
+// {
+//   '深圳': ['6', '2', '0'],
+//   ...
+// }
+exports.CITY_PLACES = _cityPlaces
 
 // {
 //   'sz': '深圳',

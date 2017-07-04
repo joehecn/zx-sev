@@ -1,3 +1,5 @@
+[![Dependency Status](https://gemnasium.com/badges/github.com/joehecn/zx-sev.svg)](https://gemnasium.com/github.com/joehecn/zx-sev)
+
 # zx-sev
 
 ## docker

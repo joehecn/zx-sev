@@ -10,7 +10,7 @@ afterEach(() => {
   server.close()
 })
 
-describe.skip('/test/app/io/kb.test.js', () => {
+describe('/test/app/io/kb.test.js', () => {
   describe('event', () => {
     it('should ok', done => {
       server.listen(3002, () => {

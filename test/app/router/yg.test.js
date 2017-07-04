@@ -5,10 +5,10 @@ const supertest = require('supertest')
 const jwt = require('jsonwebtoken')
 const { ygSecret } = require('../../../src/app/zxutil.js')
 const server = require('../../../src/app/app.js')
-const { userNameNotExist, roleDisableLogin, statusInReviewLogin,
+const { userNameNotExist, roleDisableLogin,
   passwordNotMatch } = require('../../../src/app/err.js')
 
-describe.skip('/test/app/router/yg.test.js', () => {
+describe('/test/app/router/yg.test.js', () => {
   describe('POST /api/yg/users/login', () => {
     it('should 200', async () => {
       // base64 编码
@@ -41,18 +41,18 @@ describe.skip('/test/app/router/yg.test.js', () => {
         .expect(userNameNotExist)
     })
 
-    it('should 401', async () => {
-      // base64 编码
-      const userObj = { userName: 'xiaomin', password: '12341234' }
-      const userStr = JSON.stringify(userObj)
-      const user = Buffer.from(userStr).toString('base64')
+    // it('should 401', async () => {
+    //   // base64 编码
+    //   const userObj = { userName: 'xiaomin', password: '12341234' }
+    //   const userStr = JSON.stringify(userObj)
+    //   const user = Buffer.from(userStr).toString('base64')
 
-      return supertest(server.listen())
-        .post('/api/yg/users/login')
-        .send({ user })
-        .expect(401)
-        .expect(roleDisableLogin)
-    })
+    //   return supertest(server.listen())
+    //     .post('/api/yg/users/login')
+    //     .send({ user })
+    //     .expect(401)
+    //     .expect(roleDisableLogin)
+    // })
 
     it('should 401', async () => {
       // base64 编码
@@ -64,7 +64,7 @@ describe.skip('/test/app/router/yg.test.js', () => {
         .post('/api/yg/users/login')
         .send({ user })
         .expect(401)
-        .expect(statusInReviewLogin)
+        .expect(roleDisableLogin)
     })
 
     it('should 401', async () => {

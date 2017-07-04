@@ -8,12 +8,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const SetPlaceSchema = new Schema({
   city: String,
-  airlineCompany: String,  // 航空公司
-  airCode: String,         // 代码 验证 大写或数字，必填 两位
-  airTerminal: String,     // 候机楼
-  checkInIsland: String,   // 值机岛
-  checkInCounter: String,  // 值机柜台
-  place: String,           // 集合地点 必填
+  airlineCompany: String, // 航空公司
+  airCode: String, // 代码 验证 大写或数字，必填 两位
+  airTerminal: String, // 候机楼
+  checkInIsland: String, // 值机岛
+  checkInCounter: String, // 值机柜台
+  place: String, // 集合地点 必填
   meta: {
     createAt: {
       type: Date,

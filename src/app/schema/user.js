@@ -50,10 +50,10 @@ const UserSchema = new Schema({
     unique: true,
     type: String
   },
-  password: String,               // 密码
-  name: String,                   // 可写 姓名
-  phone: Number,                  // 可写 手机
-  qq: Number,                     // QQ
+  password: String, // 密码
+  name: String, // 可写 姓名
+  phone: Number, // 可写 手机
+  qq: Number, // QQ
 
   // 用户权限：
   //  0：禁止登录,
@@ -74,8 +74,8 @@ const UserSchema = new Schema({
     type: Boolean,
     default: true
   },
-  companyAbbr: String,             // 可写 公司简称
-  sendSetTime: {                   // 送机提前时间-20：地接社 秒
+  companyAbbr: String, // 可写 公司简称
+  sendSetTime: { // 送机提前时间-20：地接社 秒
     type: Number,
     default: 120
   },
@@ -84,7 +84,7 @@ const UserSchema = new Schema({
     default: 'name|cardNum|phone|birthday|sex|' +
         'cardCategory|age|ageType|room|teamPersonNote'
   },
-  defaultFlag: String,             // 默认导游旗
+  defaultFlag: String, // 默认导游旗
   meta: {
     createAt: {
       type: Date,

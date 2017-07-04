@@ -8,7 +8,7 @@ const DengjipaiSchema = new Schema({
   name: {
     unique: true,
     type: String
-  },     // 用户
+  }, // 用户
   password: String, // 口令
   meta: {
     createAt: {

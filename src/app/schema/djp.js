@@ -10,10 +10,10 @@ const DjpSchema = new Schema({
     type: ObjectId,
     ref: 'Sm'
   },
-  name: String,                                  // 用户
+  name: String, // 用户
   isDownload: { type: Boolean, default: false }, // 是否已导出
-  isPrint: { type: Boolean, default: false },    // 是否已办理
-  djpNote: { type: String, default: '' },        // 注意事项
+  isPrint: { type: Boolean, default: false }, // 是否已办理
+  djpNote: { type: String, default: '' }, // 注意事项
   meta: {
     createAt: {
       type: Date,

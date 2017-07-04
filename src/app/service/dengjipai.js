@@ -77,28 +77,28 @@ module.exports = dbName => {
         let batchs = []
 
         for (let i = 0, lenI = teamUser.batchs.length;
-            i < lenI; i += 1) {
+          i < lenI; i += 1) {
           let teamUserBatch = teamUser.batchs[i]
           let batch = {}
           if (
-              (
-                teamUserBatch.departureTraffic._id.toString() ===
+            (
+              teamUserBatch.departureTraffic._id.toString() ===
                   djpObj.sm.toString() &&
                 teamUserBatch.departureTraffic.isSm === true
-              ) ||
+            ) ||
               (
                 teamUserBatch.returnTraffic._id.toString() ===
                   djpObj.sm.toString() &&
                 teamUserBatch.returnTraffic.isSm === true
               )
-            ) {
+          ) {
             batch.batchNum = teamUserBatch.batchNum
 
             let batchInfo = []
             if (
-                teamUserBatch.sendBatchNote &&
+              teamUserBatch.sendBatchNote &&
                 teamUserBatch.sendBatchNote !== ''
-              ) {
+            ) {
               batchInfo.push({
                 item: '备注:' + teamUserBatch.sendBatchNote
               })
@@ -109,7 +109,7 @@ module.exports = dbName => {
             let persons = []
             let isBatchOk = false
             for (let k = 0, lenK = teamUserBatch.persons.length;
-                k < lenK; k += 1) {
+              k < lenK; k += 1) {
               let teamUserBatchPerson = teamUserBatch.persons[k]
               let person = {}
               if (teamUserBatchPerson.isSend === true) {
@@ -154,7 +154,7 @@ module.exports = dbName => {
 
       setData.smDate =
         moment(smObj.flight.flightDate).format('YYYY-MM-DD')
-      setData.teamType = teamObj.teamType       // 团队类型
+      setData.teamType = teamObj.teamType // 团队类型
       setData.smFlight = smObj.flight.flightNum // 送机航班
       setData.smFlightAll =
         smObj.flight.flightNum + ' ' +
@@ -163,7 +163,7 @@ module.exports = dbName => {
         moment(smObj.flight.flightStartTime).format('HH:mm') + '-' +
         moment(smObj.flight.flightEndTime).format('HH:mm')
       setData.smRealNumber = smObj.smRealNumber // 名单人数
-      setData.smNote = smObj.smNote    // 送机备注
+      setData.smNote = smObj.smNote // 送机备注
 
       setData.users = users
 

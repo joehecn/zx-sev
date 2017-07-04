@@ -2,7 +2,7 @@
 'use strict'
 
 const jwt = require('jsonwebtoken')
-const { kbSecret } = require('../zxutil.js')
+const { kbSecret, CITY_PLACES } = require('../zxutil.js')
 const userSev = require('../service/user.js')
 
 exports.login = async ctx => {
@@ -19,5 +19,7 @@ exports.login = async ctx => {
 
   const token = jwt.sign({ _id, dbname }, kbSecret)
 
-  ctx.body = { token, name, city }
+  const places = CITY_PLACES[city]
+
+  ctx.body = { token, name, city, places }
 }
